@@ -79,6 +79,12 @@ Run the analysis from the project root:
 python src/analysis.py
 ```
 
+## Key Insights
+
+- The dataset combines study hours, attendance, and Math, Reading, and Writing scores.
+- The analysis explores how study habits and attendance relate to overall student scores.
+- The project uses Python for data cleaning, summary statistics, visualizations, and the dashboard.
+
 ## Dashboard
 
 `dashboard/app.py` provides:
