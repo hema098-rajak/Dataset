@@ -21,6 +21,17 @@ def add_overall_score(data: pd.DataFrame) -> pd.DataFrame:
     return analyzed_data
 
 
+def add_performance_category(data: pd.DataFrame) -> pd.DataFrame:
+    """Return a copy of the data with each student's performance category."""
+    analyzed_data = add_overall_score(data)
+    category_bins = [float("-inf"), 50, 70, 85, float("inf")]
+    category_labels = ["Needs Improvement", "Average", "Good", "Excellent"]
+    analyzed_data["performance_category"] = pd.cut(
+        analyzed_data["overall_score"], bins=category_bins, labels=category_labels
+    )
+    return analyzed_data
+
+
 def calculate_statistics(data: pd.DataFrame) -> dict[str, float]:
     """Calculate the main summary statistics for the dataset."""
     analyzed_data = add_overall_score(data)
@@ -64,13 +75,20 @@ def create_visualizations(data: pd.DataFrame) -> plt.Figure:
 
 def print_analysis(data: pd.DataFrame) -> None:
     """Print summary statistics and simple observations from the data."""
-    analyzed_data = add_overall_score(data)
+    analyzed_data = add_performance_category(data)
     statistics = calculate_statistics(analyzed_data)
 
     print("Student performance analysis")
     for name, value in statistics.items():
         label = name.replace("_", " ").title()
         print(f"{label}: {value}")
+
+    print("\nPerformance category counts:")
+    category_counts = analyzed_data["performance_category"].value_counts().reindex(
+        ["Needs Improvement", "Average", "Good", "Excellent"], fill_value=0
+    )
+    for category, count in category_counts.items():
+        print(f"{category}: {count}")
 
     highest_student = analyzed_data.loc[analyzed_data["overall_score"].idxmax()]
     lowest_student = analyzed_data.loc[analyzed_data["overall_score"].idxmin()]
