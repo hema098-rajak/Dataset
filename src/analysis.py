@@ -43,6 +43,7 @@ def calculate_statistics(data: pd.DataFrame) -> dict[str, float]:
         "average_reading_score": round(analyzed_data["reading_score"].mean(), 2),
         "average_writing_score": round(analyzed_data["writing_score"].mean(), 2),
         "overall_average_score": round(analyzed_data["overall_score"].mean(), 2),
+        "median_overall_score": round(analyzed_data["overall_score"].median(), 2),
     }
 
 
